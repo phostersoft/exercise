@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class InsertionSort {
+public class SelectionSort {
 
 	public static void main(String[] args) {
 		if(args.length != 1) {
@@ -15,27 +15,26 @@ public class InsertionSort {
 		}
 		scanner.close();
 		System.out.println("*** Input : " + input.toString());
-		doInsertionSort(input);
+		doSelectionSort(input);
 		System.out.println("*** Output : " + input.toString());
 	}
 
-	private static void doInsertionSort(List<Integer> input) {
+	private static void doSelectionSort(List<Integer> input) {
 		for(int i = 0; i < input.size(); i++) {
-			int currentNumber = input.get(i);
-			for(int j = 0; j < i; j++) {
+			// find smallest number from unsorted set
+			int smallestNumber = Integer.MAX_VALUE;
+			int smallestNumberLocation = -1;
+			for(int j = i; j < input.size(); j++) {
 				int checkNumber = input.get(j);
-				 // correct location found for currentNumber j
-				if(checkNumber > currentNumber) {
-					// shift numbers to make way for currentNumber
-					for(int k = i; k > j; k--) {
-						int previousNumber = input.get(k - 1);
-						input.set(k, previousNumber);
-					}
-					// insert currentNumber
-					input.set(j, currentNumber);
-					break;
+				if(checkNumber < smallestNumber) {
+					smallestNumber = checkNumber;
+					smallestNumberLocation = j;
 				}
 			}
+			// swap that smallest number with first unsorted number
+			int firstUnsortedNumber = input.get(i);
+			input.set(i, smallestNumber);
+			input.set(smallestNumberLocation, firstUnsortedNumber);
 		}
 	}
 }
